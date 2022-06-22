@@ -7,9 +7,12 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	"github.com/stretchr/testify/require"
 
+	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
+	"github.com/cosmos/cosmos-sdk/depinject"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/auth/testutil"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 )
 
@@ -51,6 +54,10 @@ func TestValidateGenesisDuplicateAccounts(t *testing.T) {
 }
 
 func TestGenesisAccountIterator(t *testing.T) {
+	var appCodec codec.Codec
+	err := depinject.Inject(testutil.AppConfig, &appCodec)
+	require.NoError(t, err)
+
 	acc1 := types.NewBaseAccountWithAddress(sdk.AccAddress(addr1))
 	acc2 := types.NewBaseAccountWithAddress(sdk.AccAddress(addr2))
 
