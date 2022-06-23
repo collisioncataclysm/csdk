@@ -41,3 +41,12 @@ func TestHomeFlagRegistration(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, result, homeDir)
 }
+
+func TestAppExport(t *testing.T) {
+	rootCmd, _ := cmd.NewRootCmd()
+	rootCmd.SetArgs([]string{
+		"export",
+	})
+
+	require.NoError(t, svrcmd.Execute(rootCmd, "", simapp.DefaultNodeHome))
+}
